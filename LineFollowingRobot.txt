@@ -1,0 +1,87 @@
+//left motor pins
+#define left_motor_a PB3
+#define left_motor_b PB4
+#define left_motor_pwm PA2
+//right motor pins
+#define right_motor_a PB5
+#define right_motor_b PB6
+#define right_motor_pwm PA3
+int s1 = PA5;   // sensor 1 left
+int s2 = PA6;  // sensor 2 right
+
+
+void setup() {
+
+  pinMode (left_motor_a, OUTPUT);
+  pinMode (left_motor_b, OUTPUT);
+  pinMode (left_motor_pwm, OUTPUT);
+  pinMode (right_motor_a, OUTPUT);
+  pinMode (right_motor_b, OUTPUT);
+  pinMode (right_motor_pwm, OUTPUT);
+  pinMode(s1, INPUT);
+  pinMode(s2, INPUT);
+
+}
+
+void loop() {
+
+  int x1 = digitalRead(s1);
+  int x2 = digitalRead(s2);
+  
+  if (x1 == HIGH && x2 == HIGH) {
+    delay(10);
+    forward();
+    delay(10);
+  }
+  else if (digitalRead(s1) == LOW && digitalRead(s2) == LOW) {
+    delay(10);
+    forward();
+    delay(10);
+  }
+  else if (digitalRead(s1) == HIGH && digitalRead(s2) == LOW)
+  {
+    delay(10);
+    left();
+    delay(10);
+  }
+  else if (digitalRead(s1) == LOW && digitalRead(s2) == HIGH)
+  {
+    delay(10);
+    right();
+    delay(10);
+  }
+}
+
+void forward() {
+  delay(10);
+  digitalWrite(left_motor_a, HIGH);
+  digitalWrite(left_motor_b, LOW);
+  analogWrite(left_motor_pwm, 100); //0-255
+
+  digitalWrite(right_motor_a, HIGH);
+  digitalWrite(right_motor_b, LOW);
+  analogWrite(right_motor_pwm, 100);
+}
+
+void left() {
+  delay(10);
+  digitalWrite(left_motor_a, LOW);
+  digitalWrite(left_motor_b, HIGH);
+  analogWrite(left_motor_pwm, 80);
+
+  digitalWrite(right_motor_a, HIGH);
+  digitalWrite(right_motor_b, LOW);
+  analogWrite(right_motor_pwm, 0);
+}
+
+
+void right() {
+
+  digitalWrite(left_motor_a, HIGH);
+  digitalWrite(left_motor_b, LOW);
+  analogWrite(left_motor_pwm, 0);
+
+  digitalWrite(right_motor_a, LOW);
+  digitalWrite(right_motor_b, HIGH);
+  analogWrite(right_motor_pwm, 80);
+}
